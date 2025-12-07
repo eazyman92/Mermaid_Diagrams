@@ -1,10 +1,10 @@
 ```mermaid
-flowchart TB
+flowchart LB
 %% FOOD PANTRY DISTRIBUTION – SWIMLANE DIAGRAM
 
 %% Lanes (horizontal rows) 
 subgraph Logistics [LOGISTICS DEPARTMENT\nInventory & Storage]
-    direction TB
+    direction LB
     A1[Receive Donations/Shipments] --> A2[Inspect: Expiration, Packaging, Temp] 
     --> A3{Usable & Safe?} 
     A3 -- Yes --> A4[Store Items] 
@@ -14,7 +14,7 @@ subgraph Logistics [LOGISTICS DEPARTMENT\nInventory & Storage]
 end
 
 subgraph Social [SOCIAL SERVICES\nEligibility & Records]
-    direction TB
+    direction LB
     B1[Register Client / Retrieve Record] --> B2[Inspect: Verify ID & Documents]
     --> B3{Eligible?}
     B3 -- Yes --> B4[Approve for Food Pack]
@@ -24,7 +24,7 @@ subgraph Social [SOCIAL SERVICES\nEligibility & Records]
 end
 
 subgraph Volunteers [VOLUNTEERS\nPacking & Portioning]
-    direction TB
+    direction LB
     C1[Select Items by Household Size] --> C2[Assemble Bags/Boxes]
     --> C3[Inspect: Quantity, Quality, Dietary]
     --> C4{Pack Complete & Balanced?}
@@ -34,7 +34,7 @@ subgraph Volunteers [VOLUNTEERS\nPacking & Portioning]
 end
 
 subgraph Distribution [DISTRIBUTION TEAM\nLogistics + Social Services + Volunteers]
-    direction TB
+    direction LB
     D1[Call Client / Verify ID] --> D2[Inspect: Pack Matches Household & Notes]
     --> D3{Suitable & Client Satisfied?}
     D3 -- Yes --> D4[Handover Pack & Log Distribution]
@@ -43,7 +43,7 @@ subgraph Distribution [DISTRIBUTION TEAM\nLogistics + Social Services + Voluntee
 end
 
 subgraph FollowUp [SOCIAL SERVICES\nFollow-Up & Reporting]
-    direction TB
+    direction LB
     E1[Conduct Satisfaction Survey] --> E2[Inspect: Review Responses]
     --> E3{Further Support Needed?}
     E3 -- Yes --> E4[Provide Additional Referral/Service]
@@ -52,7 +52,7 @@ subgraph FollowUp [SOCIAL SERVICES\nFollow-Up & Reporting]
 end
 
 subgraph Outputs [OUTPUTS]
-    direction TB
+    direction LB
     O1[Food Packs Distributed]
     O2[Updated Inventory Records]
     O3[Usage Statistics for Donors]
