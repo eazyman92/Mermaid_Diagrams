@@ -1,3 +1,4 @@
+```mermaid
 flowchart LR
 %% FOOD PANTRY DISTRIBUTION – SWIMLANE DIAGRAM
 
@@ -77,3 +78,4 @@ class A2,B2,C3,D2,E2 inspect
 class A3,B3,C4,D3,E3 decision
 class A7,B7,C7,D6,E6 trouble
 class O1,O2,O3,O4 output
+```
