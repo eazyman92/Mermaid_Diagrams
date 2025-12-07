@@ -1,73 +1,83 @@
-```mermaid
-flowchart TB
-    subgraph Logistics [LOGISTICS DEPARTMENT (Inventory & Storage)]
-        direction TB
-        Start((Start)) --> Receive[Receive Donations/Shipments]
-        Receive --> Inspect1[Check expiration, packaging, temperatures]
-        Inspect1 --> Decision1{Usable?}
-        Decision1 -- Yes --> Store[Store Items]
-        Decision1 -- No --> Dispose[Dispose/Report Issue]
-        Store --> Update[Update Inventory System]
-        Dispose --> Update
+%% FOOD PANTRY DISTRIBUTION – SWIMLANE DIAGRAM (GitHub-compatible)
+flowchart LR
+    %% ------------------- Lanes (horizontal rows) -------------------
+    subgraph Logistics [LOGISTICS DEPARTMENT<br/>Inventory & Storage]
+        direction LR
+        A1[Receive Donations/Shipments] 
+        --> A2[Inspect: Expiration, Packaging, Temp]
+        --> A3{Usable & Safe?}
+        A3 -- Yes --> A4[Store Items]
+        A3 -- No --> A5[Dispose / Report to Donor]
+        A4 & A5 --> A6[Update Inventory System]
+        A6 --> A7[Troubleshooting:<br/>Shortages, Wrong Delivery,<br/>Refrigeration Failure]
     end
 
-    subgraph SocialServices1 [SOCIAL SERVICES (Eligibility & Records)]
-        direction TB
-        Register[Register Client / Retrieve Record] --> Inspect2[Verify Documentation]
-        Inspect2 --> Decision2{Eligible?}
-        Decision2 -- Yes --> Approve[Approve Client for Pack]
-        Decision2 -- No --> Referrals[Provide Referrals / Close Intake]
-        Approve --> Review[Review Household Needs]
-        Referrals --> EndSS1(( ))
+    subgraph SocialServices1 [SOCIAL SERVICES<br/>Eligibility & Records]
+        direction LR
+        B1[Register Client / Retrieve Record]
+        --> B2[Inspect: Verify ID & Documents]
+        --> B3{Eligible?}
+        B3 -- Yes --> B4[Approve for Food Pack]
+        B3 -- No --> B5[Provide Referrals / Close Intake]
+        B4 --> B6[Review Household Size & Dietary Needs]
+        B5 & B6 --> B7[Troubleshooting:<br/>Missing Docs, Duplicates,<br/>Language Barriers]
     end
 
-    subgraph Volunteers [VOLUNTEERS (Packing & Portioning)]
-        direction TB
-        Assemble[Assemble Food Packs] --> Inspect3[Check Quantity & Item Quality]
-        Inspect3 --> Decision3{Complete Pack?}
-        Decision3 -- Yes --> Queue[Move to Distribution Queue]
-        Decision3 -- No --> Fix[Fix Pack / Request Substitution]
-        Fix --> Queue
+    subgraph Volunteers [VOLUNTEERS<br/>Packing & Portioning]
+        direction LR
+        C1[Select Items by Household Size]
+        --> C2[Assemble Bags/Boxes]
+        --> C3[Inspect: Quantity, Quality, Dietary]
+        --> C4{Pack Complete & Balanced?}
+        C4 -- Yes --> C5[Move to Distribution Queue]
+        C4 -- No --> C6[Fix / Substitute Items]
+        C5 & C6 --> C7[Troubleshooting:<br/>Low Stock, Mislabeling,<br/>Pack Errors]
     end
 
-    subgraph Distribution [DISTRIBUTION TEAM (Logistics + Social Services + Volunteers)]
-        direction TB
-        Call[Call Client / Verify ID] --> Inspect4[Match Pack to Household Size]
-        Inspect4 --> Decision4{Suitable?}
-        Decision4 -- Yes --> Handover[Handover Pack]
-        Decision4 -- No --> Adjust[Adjust Items / Escalate to Social Services]
-        Adjust --> Handover
+    subgraph Distribution [DISTRIBUTION TEAM<br/>(Logistics + Social Services + Volunteers)]
+        direction LR
+        D1[Call Client / Verify ID]
+        --> D2[Inspect: Pack Matches Household & Notes]
+        --> D3{Suitable & Client Satisfied?}
+        D3 -- Yes --> D4[Handover Pack & Log Distribution]
+        D3 -- No --> D5[Adjust Items / Escalate]
+        D4 & D5 --> D6[Troubleshooting:<br/>Mobility Issues, Long Lines,<br/>Wrong Pack]
     end
 
-    subgraph SocialServices2 [SOCIAL SERVICES (Follow-Up)]
-        direction TB
-        Survey[Conduct Client Survey] --> Inspect5[Review Feedback]
-        Inspect5 --> Decision5{Further Support Needed?}
-        Decision5 -- Yes --> Referral[Provide Referral]
-        Decision5 -- No --> Close[Close Case]
-        Referral --> Close
+    subgraph FollowUp [SOCIAL SERVICES<br/>Follow-Up & Reporting]
+        direction LR
+        E1[Conduct Satisfaction Survey]
+        --> E2[Inspect: Review Responses]
+        --> E3{Further Support Needed?}
+        E3 -- Yes --> E4[Provide Additional Referral/Service]
+        E3 -- No --> E5[Close Case & Log Feedback]
+        E4 & E5 --> E6[Troubleshooting:<br/>Incomplete Survey, Complaints]
     end
 
     subgraph Outputs [OUTPUTS]
         direction LR
-        Out1[Distributed Food Packs] --- Out2[Updated Records] --- Out3[Donor Usage Metrics] --- Out4[Client Feedback Logged]
+        O1[Food Packs Distributed]
+        O2[Updated Inventory Records]
+        O3[Usage Statistics for Donors]
+        O4[Client Feedback & Satisfaction Data]
     end
 
-    Update --> Register
-    Review --> Assemble
-    Queue --> Call
-    Handover --> Survey
-    Close --> Outputs
+    %% ------------------- Cross-lane connections -------------------
+    A6 --> B1
+    B6 --> C1
+    C5 --> D1
+    D4 --> E1
+    E5 --> O1 & O2 & O3 & O4
 
-    style Logistics fill:#f9f,stroke:#333,stroke-width:2px
-    style SocialServices1 fill:#bbf,stroke:#333,stroke-width:2px
-    style Volunteers fill:#bfb,stroke:#333,stroke-width:2px
-    style Distribution fill:#ffb,stroke:#333,stroke-width:2px
-    style SocialServices2 fill:#bbf,stroke:#333,stroke-width
-:2px
-    style Outputs fill:#fff,stroke:#333,stroke-width:2px
-```
+    %% ------------------- Styling -------------------
+    classDef action fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+    classDef inspect fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000
+    classDef decision fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px,color:#000
+    classDef trouble fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#d32f2f
+    classDef output fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
 
-
-
-
+    class A1,A4,A5,A6,B1,B4,B5,B6,C1,C2,C5,C6,D1,D4,D5,E1,E4,E5 action
+    class A2,B2,C3,D2,E2 inspect
+    class A3,B3,C4,D3,E3 decision
+    class A7,B7,C7,D6,E6 trouble
+    class O1,O2,O3,O4 output
